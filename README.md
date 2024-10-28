@@ -2,10 +2,13 @@
 
 ## Setup
 1. I have used Docker to run this application, so you will need to install and setup Docker in your local system first.
-2. Once Docker is up and running, execute the following Docker command to start MongoDB, Mongo-Express (UI for MongoDB) and run the API:
-	 
-        docker-compose up -d --build
-3. Import `Patient Management System.postman_collection.json` file present in the root directory into Postman to test the API endpoints.
+2. Update `mongodb_data` volume path in `docker-compose.yaml` file on `line number 10` to an existing directory in your local system:
+	> replace `/Users/preyansh/docker/db` with an existing directory path in
+	> your system
+
+3. Once Docker is up and running, execute the following Docker command to start MongoDB, Mongo-Express (UI for MongoDB) and run the API:
+docker-compose up -d --build
+4. Import `Patient Management System.postman_collection.json` file present in the root directory into Postman to test the API endpoints.
 
 **Note: I am checking in .env file with both JWT and mongodb URL without authentication to make it easier to test. In reality, we must not push such sensitive information in version control.**
 
@@ -25,6 +28,7 @@
 ### Further Improvements
 1. We can improve appointment scheduling with finer control on appointment time and avoiding conflict in appointments for both doctors and patients.
 2. We should secure MongoDB with authentication.
+3. We should support resetting passwords and a super-admin role who assigns appropriate roles to users.
 
 ## Summary
 
