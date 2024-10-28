@@ -1,0 +1,49 @@
+version: '3'
+
+services:
+  mongodb:
+    image: mongo:5.0.6-focal
+    container_name: mongo
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodb_data:/Users/preyansh/docker/db
+    # environment:
+    #   MONGO_INITDB_ROOT_USERNAME: admin
+    #   MONGO_INITDB_ROOT_PASSWORD: password
+    networks:
+      - mongo-database
+
+  mongo-express:
+    image: mongo-express:1.0.0-alpha.4
+    container_name: mongo-ui
+    ports:
+      - 8081:8081
+    environment:
+      # - ME_CONFIG_MONGODB_URL=mongo://admin:password@mongo:27017/
+      # - ME_CONFIG_MONGODB_ENABLE_ADMIN=true
+      - ME_CONFIG_BASICAUTH_USERNAME=root
+      - ME_CONFIG_BASICAUTH_PASSWORD=root
+      - ME_CONFIG_MONGODB_SERVER=mongodb
+    depends_on:
+      - mongodb
+    networks:
+      - mongo-database
+
+  api-server:
+    container_name: api-server
+    build: .
+    # image: api-server
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongodb
+    networks:
+      - mongo-database
+
+volumes:
+  mongodb_data:
+
+networks:
+  mongo-database:
+    driver: bridge
